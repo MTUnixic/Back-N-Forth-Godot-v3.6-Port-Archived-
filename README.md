@@ -6,11 +6,9 @@
 - Be safe, and i wish you best of luck! :)
 > MT Unixic
 
-**BACK N FORTH DISCORD SERVER:** https://discord.gg/J2pNdJ7MXV
-
 ___
 Heh.. the game was actually made in:
-
+```
           .
          / \
         /   \                     #     | *
@@ -19,40 +17,48 @@ Heh.. the game was actually made in:
      /  (   ) _\   %OoO# #   %#e" #  #  | | |   | ^._.| / \ TM
     / _.~   ~._^\
    /.^         ^.\ TM
-
+```
 
 btw >:)
+
+
 ___
 
 Important Note!!
 - You need **both** the executable and the .pck file for the game to launch.
 have fun!
 
----
+
 
 MADE BY:
+```
  __  __ _____   _   _       _      _
 |  \/  |_   _| | | | |_ __ (_)_  _(_) ___
 | |\/| | | |   | | | | '_ \| \ \/ / |/ __|
 | |  | | | |   | |_| | | | | |>  <| | (__
 |_|  |_| |_|    \___/|_| |_|_/_/\_\_|\___|
-
+```
 AND:
+```
  _____ _           _    ___             _   _                 
 |_   _| |__   __ _| |_ / _ \ _ __   ___| | | | __ _ _ __ ___  
   | | | '_ \ / _` | __| | | | '_ \ / _ \ |_| |/ _` | '_ ` _ \ 
   | | | | | | (_| | |_| |_| | | | |  __/  _  | (_| | | | | | |
   |_| |_| |_|\__,_|\__|\___/|_| |_|\___|_| |_|\__,_|_| |_| |_|
+```
 
 
 WITH THE HELP OF:
+```
   ____           _       _     _____
  / ___| ___   __| | ___ | |_  |___ /
 | |  _ / _ \ / _` |/ _ \| __|   |_ \
 | |_| | (_) | (_| | (_) | |_   ___) |
  \____|\___/ \__,_|\___/ \__| |____/
+```
+
 
 ---
 
-Join the Discord if you haven't!
+Join the **Discord** if you haven't! ;)
 https://discord.gg/J2pNdJ7MXV
