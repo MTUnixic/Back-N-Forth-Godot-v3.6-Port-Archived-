@@ -22,7 +22,7 @@ Heh.. the game was actually made in:
 
 
 btw >:)
----
+___
 
 Important Note!!
 - You need **both** the executable and the .pck file for the game to launch.
