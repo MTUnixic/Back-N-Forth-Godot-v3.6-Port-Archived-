@@ -1,0 +1,986 @@
+[gd_scene load_steps=109 format=2]
+
+[ext_resource path="res://Assets/RichTextLabel Effects/Handlee-Regular.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://Assets/Map/BlankBG.gd" type="Script" id=2]
+[ext_resource path="res://Assets/Map/Camera.gd" type="Script" id=3]
+[ext_resource path="res://Assets/Map/MoveSprites.gd" type="Script" id=4]
+[ext_resource path="res://Assets/GUI/Results.gd" type="Script" id=5]
+[ext_resource path="res://Assets/Map/MusicPlayer.gd" type="Script" id=6]
+[ext_resource path="res://Assets/Map/BG/1_CaveBG.svg" type="Texture" id=7]
+[ext_resource path="res://Assets/Map/Escape!.gd" type="Script" id=8]
+[ext_resource path="res://Assets/Map/EscapeTimer.gd" type="Script" id=9]
+[ext_resource path="res://Assets/OutlineShader.gd" type="Script" id=10]
+[ext_resource path="res://Assets/Interactables/EscapeOrb.tscn" type="PackedScene" id=11]
+[ext_resource path="res://Assets/Player/Blink.tscn" type="PackedScene" id=12]
+[ext_resource path="res://Assets/Interactables/Tramp.tscn" type="PackedScene" id=13]
+[ext_resource path="res://Assets/Map/Assets/Hot/2-3.svg" type="Texture" id=14]
+[ext_resource path="res://Assets/GUI/Sounds/Timeout.wav" type="AudioStream" id=15]
+[ext_resource path="res://Assets/Enemys/Cyquanox.tscn" type="PackedScene" id=16]
+[ext_resource path="res://Assets/GUI/Sounds/BnF - TimingLevel.mp3" type="AudioStream" id=17]
+[ext_resource path="res://Assets/GUI/Assets/EscapeBarBG.svg" type="Texture" id=19]
+[ext_resource path="res://Assets/GUI/Assets/EndOfDemo.png" type="Texture" id=20]
+[ext_resource path="res://Assets/GUI/Sounds/In-Game OST__MT Unixic-Escapism.mp3" type="AudioStream" id=23]
+[ext_resource path="res://Assets/GUI/Sounds/Victory.wav" type="AudioStream" id=24]
+[ext_resource path="res://Assets/GUI/Assets/EscapeBarProgress.svg" type="Texture" id=26]
+[ext_resource path="res://addons/rmsmartshape/shapes/point.gd" type="Script" id=28]
+[ext_resource path="res://addons/rmsmartshape/shapes/point_array.gd" type="Script" id=29]
+[ext_resource path="res://addons/rmsmartshape/vertex_properties.gd" type="Script" id=30]
+[ext_resource path="res://addons/rmsmartshape/materials/shape_material.gd" type="Script" id=31]
+[ext_resource path="res://addons/rmsmartshape/shapes/shape_closed.gd" type="Script" id=32]
+[ext_resource path="res://Assets/GUI/Stats.tscn" type="PackedScene" id=44]
+
+[sub_resource type="Shader" id=101]
+code = "shader_type canvas_item;
+
+const float PI = 3.1415926535;
+
+// Uniforms from both shaders
+uniform float strength: hint_range(0., 1.) = 0.5;  // For the rainbow effect
+uniform float speed: hint_range(0., 10.) = 0.5;    // For the rainbow effect
+uniform float angle: hint_range(0., 360.) = 0.;    // For the rainbow effect
+
+uniform vec4 tint_color: hint_color = vec4(1.0, 1.0, 1.0, 1.0);  // For the tint effect
+uniform float difference: hint_range(0.0, 1.0) = 0.0;  // For the tint effect
+
+void fragment() {
+    // Get the original texture color
+    vec4 tex = texture(TEXTURE, UV);
+    
+    // Rainbow effect calculations (HSV to RGB)
+    float hue = UV.x * cos(radians(angle)) - UV.y * sin(radians(angle));
+    hue = fract(hue + fract(TIME  * speed));
+    float x = 1. - abs(mod(hue / (1./ 6.), 2.) - 1.);
+    vec3 rainbow;
+    if(hue < 1./6.){
+        rainbow = vec3(1., x, 0.);
+    } else if (hue < 1./3.) {
+        rainbow = vec3(x, 1., 0);
+    } else if (hue < 0.5) {
+        rainbow = vec3(0, 1., x);
+    } else if (hue < 2./3.) {
+        rainbow = vec3(0., x, 1.);
+    } else if (hue < 5./6.) {
+        rainbow = vec3(x, 0., 1.);
+    } else {
+        rainbow = vec3(1., 0., x);
+    }
+
+    // Apply the rainbow effect
+    vec3 rainbow_mix = mix(tex.rgb, rainbow, strength);
+    
+    // Apply the tint effect on top of the rainbow mix
+    vec3 tinted_color = mix(rainbow_mix, tint_color.rgb, difference);
+    
+    // Set the final color
+    COLOR.rgb = tinted_color;
+    COLOR.a = tex.a;  // Preserve the original alpha value
+}
+"
+
+[sub_resource type="ShaderMaterial" id=4430]
+shader = SubResource( 101 )
+shader_param/strength = 0.123
+shader_param/speed = 0.1
+shader_param/angle = 99.622
+shader_param/tint_color = Color( 0.513726, 1, 0.945098, 0.498039 )
+shader_param/difference = 0.0
+
+[sub_resource type="DynamicFont" id=4431]
+size = 100
+outline_size = 7
+font_data = ExtResource( 1 )
+
+[sub_resource type="Resource" id=4462]
+script = ExtResource( 30 )
+texture_idx = 6
+flip = false
+width = 1.0
+
+[sub_resource type="Resource" id=4463]
+script = ExtResource( 28 )
+position = Vector2( -747.39, 611.562 )
+point_in = Vector2( 0, 0 )
+point_out = Vector2( 0, 0 )
+properties = SubResource( 4462 )
+
+[sub_resource type="Resource" id=4464]
+script = ExtResource( 30 )
+texture_idx = 0
+flip = false
+width = 1.0
+
+[sub_resource type="Resource" id=4465]
+script = ExtResource( 28 )
+position = Vector2( -1127.46, 769.384 )
+point_in = Vector2( 0, 0 )
+point_out = Vector2( 0, 0 )
+properties = SubResource( 4464 )
+
+[sub_resource type="Resource" id=4466]
+script = ExtResource( 30 )
+texture_idx = 28
+flip = false
+width = 1.0
+
+[sub_resource type="Resource" id=4467]
+script = ExtResource( 28 )
+position = Vector2( -1040.42, 404.862 )
+point_in = Vector2( 0, 0 )
+point_out = Vector2( 0, 0 )
+properties = SubResource( 4466 )
+
+[sub_resource type="Resource" id=4468]
+script = ExtResource( 30 )
+texture_idx = 1
+flip = false
+width = 1.0
+
+[sub_resource type="Resource" id=4469]
+script = ExtResource( 28 )
+position = Vector2( -747.206, 466.567 )
+point_in = Vector2( 0, 0 )
+point_out = Vector2( 0, 0 )
+properties = SubResource( 4468 )
+
+[sub_resource type="Resource" id=4470]
+script = ExtResource( 30 )
+texture_idx = 7
+flip = false
+width = 1.0
+
+[sub_resource type="Resource" id=4471]
+script = ExtResource( 28 )
+position = Vector2( -1011.91, 435.87 )
+point_in = Vector2( 0, 0 )
+point_out = Vector2( 0, 0 )
+properties = SubResource( 4470 )
+
+[sub_resource type="Resource" id=4472]
+script = ExtResource( 30 )
+texture_idx = 5
+flip = false
+width = 1.0
+
+[sub_resource type="Resource" id=4473]
+script = ExtResource( 28 )
+position = Vector2( -779.156, 436.086 )
+point_in = Vector2( 0, 0 )
+point_out = Vector2( 0, 0 )
+properties = SubResource( 4472 )
+
+[sub_resource type="Resource" id=4474]
+script = ExtResource( 30 )
+texture_idx = 1
+flip = false
+width = 1.0
+
+[sub_resource type="Resource" id=4475]
+script = ExtResource( 28 )
+position = Vector2( 2610.49, 604.764 )
+point_in = Vector2( 0, 0 )
+point_out = Vector2( 0, 0 )
+properties = SubResource( 4474 )
+
+[sub_resource type="Resource" id=4476]
+script = ExtResource( 30 )
+texture_idx = 0
+flip = false
+width = 1.0
+
+[sub_resource type="Resource" id=4477]
+script = ExtResource( 28 )
+position = Vector2( 2612.18, 336.034 )
+point_in = Vector2( 0, 0 )
+point_out = Vector2( 0, 0 )
+properties = SubResource( 4476 )
+
+[sub_resource type="Resource" id=4478]
+script = ExtResource( 30 )
+texture_idx = 5
+flip = false
+width = 1.2
+
+[sub_resource type="Resource" id=4479]
+script = ExtResource( 28 )
+position = Vector2( 348.091, 609.855 )
+point_in = Vector2( 0, 0 )
+point_out = Vector2( 0, 0 )
+properties = SubResource( 4478 )
+
+[sub_resource type="Resource" id=4480]
+script = ExtResource( 30 )
+texture_idx = 7
+flip = false
+width = 1.0
+
+[sub_resource type="Resource" id=4481]
+script = ExtResource( 28 )
+position = Vector2( 471.035, 559.073 )
+point_in = Vector2( 0, 0 )
+point_out = Vector2( 0, 0 )
+properties = SubResource( 4480 )
+
+[sub_resource type="Resource" id=4482]
+script = ExtResource( 30 )
+texture_idx = 7
+flip = false
+width = 1.0
+
+[sub_resource type="Resource" id=4483]
+script = ExtResource( 28 )
+position = Vector2( 1392.39, 559.301 )
+point_in = Vector2( 0, 0 )
+point_out = Vector2( 0, 0 )
+properties = SubResource( 4482 )
+
+[sub_resource type="Resource" id=4484]
+script = ExtResource( 30 )
+texture_idx = 0
+flip = false
+width = 1.0
+
+[sub_resource type="Resource" id=4485]
+script = ExtResource( 28 )
+position = Vector2( 1520.78, 606.984 )
+point_in = Vector2( 0, 0 )
+point_out = Vector2( 0, 0 )
+properties = SubResource( 4484 )
+
+[sub_resource type="Resource" id=4486]
+script = ExtResource( 30 )
+texture_idx = 0
+flip = false
+width = 1.0
+
+[sub_resource type="Resource" id=4487]
+script = ExtResource( 28 )
+position = Vector2( -1206.16, 430.605 )
+point_in = Vector2( 0, 0 )
+point_out = Vector2( 0, 0 )
+properties = SubResource( 4486 )
+
+[sub_resource type="Resource" id=4488]
+script = ExtResource( 30 )
+texture_idx = 0
+flip = false
+width = 1.0
+
+[sub_resource type="Resource" id=4489]
+script = ExtResource( 28 )
+position = Vector2( 3105.02, 503.793 )
+point_in = Vector2( 0, 0 )
+point_out = Vector2( 0, 0 )
+properties = SubResource( 4488 )
+
+[sub_resource type="Resource" id=4490]
+script = ExtResource( 30 )
+texture_idx = -11
+flip = false
+width = 1.0
+
+[sub_resource type="Resource" id=4491]
+script = ExtResource( 28 )
+position = Vector2( 5329.49, -98.9829 )
+point_in = Vector2( 0, 0 )
+point_out = Vector2( 0, 0 )
+properties = SubResource( 4490 )
+
+[sub_resource type="Resource" id=4492]
+script = ExtResource( 30 )
+texture_idx = 0
+flip = false
+width = 1.0
+
+[sub_resource type="Resource" id=4493]
+script = ExtResource( 28 )
+position = Vector2( 2639.63, 285.54 )
+point_in = Vector2( 0, 0 )
+point_out = Vector2( 0, 0 )
+properties = SubResource( 4492 )
+
+[sub_resource type="Resource" id=4494]
+script = ExtResource( 30 )
+texture_idx = 0
+flip = false
+width = 1.0
+
+[sub_resource type="Resource" id=4495]
+script = ExtResource( 28 )
+position = Vector2( 3408.07, 581.157 )
+point_in = Vector2( 0, 0 )
+point_out = Vector2( 0, 0 )
+properties = SubResource( 4494 )
+
+[sub_resource type="Resource" id=4496]
+script = ExtResource( 30 )
+texture_idx = 10
+flip = false
+width = 1.0
+
+[sub_resource type="Resource" id=4497]
+script = ExtResource( 28 )
+position = Vector2( 3837.22, 578.003 )
+point_in = Vector2( 0, 0 )
+point_out = Vector2( 0, 0 )
+properties = SubResource( 4496 )
+
+[sub_resource type="Resource" id=4498]
+script = ExtResource( 30 )
+texture_idx = 2
+flip = false
+width = 1.0
+
+[sub_resource type="Resource" id=4499]
+script = ExtResource( 28 )
+position = Vector2( 3407.96, 329.266 )
+point_in = Vector2( 0, 0 )
+point_out = Vector2( 0, 0 )
+properties = SubResource( 4498 )
+
+[sub_resource type="Resource" id=4500]
+script = ExtResource( 30 )
+texture_idx = 5
+flip = false
+width = 1.0
+
+[sub_resource type="Resource" id=4501]
+script = ExtResource( 28 )
+position = Vector2( 3836.98, 329.216 )
+point_in = Vector2( 0, 0 )
+point_out = Vector2( 0, 0 )
+properties = SubResource( 4500 )
+
+[sub_resource type="Resource" id=4502]
+script = ExtResource( 30 )
+texture_idx = 0
+flip = false
+width = 1.0
+
+[sub_resource type="Resource" id=4503]
+script = ExtResource( 28 )
+position = Vector2( 3237, 580 )
+point_in = Vector2( 0, 0 )
+point_out = Vector2( 0, 0 )
+properties = SubResource( 4502 )
+
+[sub_resource type="Resource" id=4504]
+script = ExtResource( 30 )
+texture_idx = -8
+flip = false
+width = 1.0
+
+[sub_resource type="Resource" id=4505]
+script = ExtResource( 28 )
+position = Vector2( 3178, 504 )
+point_in = Vector2( 0, 0 )
+point_out = Vector2( 0, 0 )
+properties = SubResource( 4504 )
+
+[sub_resource type="Resource" id=4506]
+script = ExtResource( 30 )
+texture_idx = 0
+flip = false
+width = 1.0
+
+[sub_resource type="Resource" id=4507]
+script = ExtResource( 28 )
+position = Vector2( 3079.62, 285.33 )
+point_in = Vector2( 0, 0 )
+point_out = Vector2( 0, 0 )
+properties = SubResource( 4506 )
+
+[sub_resource type="Resource" id=4508]
+script = ExtResource( 30 )
+texture_idx = 2
+flip = false
+width = 1.0
+
+[sub_resource type="Resource" id=4509]
+script = ExtResource( 28 )
+position = Vector2( 3105.18, 321.851 )
+point_in = Vector2( 0, 0 )
+point_out = Vector2( 0, 0 )
+properties = SubResource( 4508 )
+
+[sub_resource type="Resource" id=4510]
+script = ExtResource( 30 )
+texture_idx = 6
+flip = false
+width = 1.0
+
+[sub_resource type="Resource" id=4511]
+script = ExtResource( 28 )
+position = Vector2( 4770.77, -99.1735 )
+point_in = Vector2( 0, 0 )
+point_out = Vector2( 0, 0 )
+properties = SubResource( 4510 )
+
+[sub_resource type="Resource" id=4512]
+script = ExtResource( 30 )
+texture_idx = 0
+flip = false
+width = 1.0
+
+[sub_resource type="Resource" id=4513]
+script = ExtResource( 28 )
+position = Vector2( 5363.49, 555.928 )
+point_in = Vector2( 0, 0 )
+point_out = Vector2( 0, 0 )
+properties = SubResource( 4512 )
+
+[sub_resource type="Resource" id=4514]
+script = ExtResource( 30 )
+texture_idx = 0
+flip = false
+width = 1.0
+
+[sub_resource type="Resource" id=4515]
+script = ExtResource( 28 )
+position = Vector2( 8118.74, 726.333 )
+point_in = Vector2( 0, 0 )
+point_out = Vector2( 0, 0 )
+properties = SubResource( 4514 )
+
+[sub_resource type="Resource" id=4516]
+script = ExtResource( 30 )
+texture_idx = 0
+flip = false
+width = 1.0
+
+[sub_resource type="Resource" id=4517]
+script = ExtResource( 28 )
+position = Vector2( 4771.51, 539.031 )
+point_in = Vector2( 0, 0 )
+point_out = Vector2( 0, 0 )
+properties = SubResource( 4516 )
+
+[sub_resource type="Resource" id=4518]
+script = ExtResource( 30 )
+texture_idx = 7
+flip = false
+width = 1.0
+
+[sub_resource type="Resource" id=4519]
+script = ExtResource( 28 )
+position = Vector2( 5328.35, 511.472 )
+point_in = Vector2( 0, 0 )
+point_out = Vector2( 0, 0 )
+properties = SubResource( 4518 )
+
+[sub_resource type="Resource" id=4520]
+script = ExtResource( 30 )
+texture_idx = 0
+flip = false
+width = 1.0
+
+[sub_resource type="Resource" id=4521]
+script = ExtResource( 28 )
+position = Vector2( 5422.46, 582.886 )
+point_in = Vector2( 0, 0 )
+point_out = Vector2( 0, 0 )
+properties = SubResource( 4520 )
+
+[sub_resource type="Resource" id=4522]
+script = ExtResource( 30 )
+texture_idx = 0
+flip = false
+width = 1.0
+
+[sub_resource type="Resource" id=4523]
+script = ExtResource( 28 )
+position = Vector2( 6291.27, 583.008 )
+point_in = Vector2( 0, 0 )
+point_out = Vector2( 0, 0 )
+properties = SubResource( 4522 )
+
+[sub_resource type="Resource" id=4524]
+script = ExtResource( 30 )
+texture_idx = 0
+flip = false
+width = 1.0
+
+[sub_resource type="Resource" id=4525]
+script = ExtResource( 28 )
+position = Vector2( 6439.78, 583.802 )
+point_in = Vector2( 0, 0 )
+point_out = Vector2( 0, 0 )
+properties = SubResource( 4524 )
+
+[sub_resource type="Resource" id=4526]
+script = ExtResource( 30 )
+texture_idx = 0
+flip = false
+width = 1.0
+
+[sub_resource type="Resource" id=4527]
+script = ExtResource( 28 )
+position = Vector2( 6861.1, 585.317 )
+point_in = Vector2( 0, 0 )
+point_out = Vector2( 0, 0 )
+properties = SubResource( 4526 )
+
+[sub_resource type="Resource" id=4528]
+script = ExtResource( 30 )
+texture_idx = 0
+flip = false
+width = 1.0
+
+[sub_resource type="Resource" id=4529]
+script = ExtResource( 28 )
+position = Vector2( 6328.66, 553.572 )
+point_in = Vector2( 0, 0 )
+point_out = Vector2( 0, 0 )
+properties = SubResource( 4528 )
+
+[sub_resource type="Resource" id=4530]
+script = ExtResource( 30 )
+texture_idx = 0
+flip = false
+width = 1.0
+
+[sub_resource type="Resource" id=4531]
+script = ExtResource( 28 )
+position = Vector2( 6406.06, 554.515 )
+point_in = Vector2( 0, 0 )
+point_out = Vector2( 0, 0 )
+properties = SubResource( 4530 )
+
+[sub_resource type="Resource" id=4532]
+script = ExtResource( 30 )
+texture_idx = 28
+flip = false
+width = 1.0
+
+[sub_resource type="Resource" id=4533]
+script = ExtResource( 28 )
+position = Vector2( -1040.42, 404.862 )
+point_in = Vector2( 0, 0 )
+point_out = Vector2( 0, 0 )
+properties = SubResource( 4532 )
+
+[sub_resource type="Resource" id=4534]
+script = ExtResource( 29 )
+_points = {
+1: SubResource( 4463 ),
+2: SubResource( 4465 ),
+6: SubResource( 4467 ),
+19: SubResource( 4469 ),
+20: SubResource( 4471 ),
+21: SubResource( 4473 ),
+36: SubResource( 4475 ),
+37: SubResource( 4477 ),
+38: SubResource( 4479 ),
+39: SubResource( 4481 ),
+40: SubResource( 4483 ),
+41: SubResource( 4485 ),
+42: SubResource( 4487 ),
+44: SubResource( 4489 ),
+45: SubResource( 4491 ),
+52: SubResource( 4493 ),
+53: SubResource( 4495 ),
+54: SubResource( 4497 ),
+55: SubResource( 4499 ),
+56: SubResource( 4501 ),
+69: SubResource( 4503 ),
+70: SubResource( 4505 ),
+71: SubResource( 4507 ),
+72: SubResource( 4509 ),
+74: SubResource( 4511 ),
+91: SubResource( 4513 ),
+93: SubResource( 4515 ),
+103: SubResource( 4517 ),
+109: SubResource( 4519 ),
+110: SubResource( 4521 ),
+184: SubResource( 4523 ),
+185: SubResource( 4525 ),
+186: SubResource( 4527 ),
+187: SubResource( 4529 ),
+188: SubResource( 4531 ),
+274: SubResource( 4533 )
+}
+_point_order = [ 6, 20, 21, 19, 1, 38, 39, 40, 41, 36, 37, 52, 71, 72, 44, 70, 69, 53, 55, 56, 54, 103, 74, 45, 109, 91, 110, 184, 187, 188, 185, 186, 93, 2, 42, 274 ]
+_constraints = {
+[ 6, 274 ]: 15
+}
+_next_key = 275
+_material_overrides = {
+}
+
+[sub_resource type="Resource" id=4461]
+script = ExtResource( 31 )
+_edge_meta_materials = [  ]
+fill_textures = [ ExtResource( 14 ) ]
+fill_texture_normals = [  ]
+fill_texture_z_index = -10
+fill_texture_show_behind_parent = false
+fill_mesh_offset = 0.0
+render_offset = 0.0
+
+[sub_resource type="Shader" id=4429]
+code = "shader_type canvas_item;
+
+uniform vec4 color : hint_color = vec4(1.0); // Shadow color
+uniform float opacity : hint_range(0, 1.0) = 1.0; // Shadow opacity
+uniform float width : hint_range(0, 10) = 1.0; // Shadow width
+uniform int pattern : hint_range(0, 2) = 0; // 0: diamond, 1: circle, 2: square
+uniform float shadowOpacity : hint_range(0, 1.0) = 1.0;
+uniform bool inside = false;
+uniform bool add_margins = true; // Only useful when inside is false
+uniform float borderScale = 2.0;
+uniform float offsetY = -10.0; // Vertical position offset for shadow
+uniform vec4 modulate : hint_color = vec4(1.0);
+uniform bool debug = false;
+uniform float saturation : hint_range(0, 2.0) = 1.0; // Saturation control
+
+// Scaling element
+void vertex() {
+    if (add_margins) {
+        VERTEX += (UV * 2.0 - 1.0) * width;
+    }
+    VERTEX.xy *= vec2(borderScale);
+}
+
+// Hide extra pixels function
+vec4 hideExtra(vec2 uv, sampler2D txtr, bool isMain) {
+    if (uv.x >= 0.0 && uv.x <= 1.0 && uv.y >= 0.0 && uv.y <= 1.0) {
+        vec4 texColor = texture(txtr, uv);
+        return isMain ? texColor : vec4(color.rgb, texColor.a - (1.0 - color.a));
+    }
+    return vec4(0.0);
+}
+
+// Function to check for contrary neighbors
+bool hasContraryNeighbour(vec2 uv, vec2 texture_pixel_size, sampler2D texture) {
+    for (float i = -ceil(width); i <= ceil(width); i++) {
+        float x = abs(i) > width ? width * sign(i) : i;
+        float offset;
+        
+        if (pattern == 0) {
+            offset = width - abs(x);
+        } else if (pattern == 1) {
+            offset = floor(sqrt(pow(width + 0.5, 2) - x * x));
+        } else if (pattern == 2) {
+            offset = width;
+        }
+        
+        for (float j = -ceil(offset); j <= ceil(offset); j++) {
+            float y = abs(j) > offset ? offset * sign(j) : j;
+            vec2 xy = uv + texture_pixel_size * vec2(x, y);
+            
+            if ((xy != clamp(xy, vec2(0.0), vec2(1.0)) || texture(texture, xy).a <= 0.0) == inside) {
+                return true;
+            }
+        }
+    }
+    
+    return false;
+}
+
+
+vec3 adjustSaturation(vec3 inColor, float InSaturation) {
+    vec3 gray = vec3(1.0);
+    return mix(gray, inColor, InSaturation);
+}
+
+
+void fragment() {
+    vec2 uv = UV;
+    vec2 singlePX = TEXTURE_PIXEL_SIZE;
+    
+    // Main element color
+    vec4 mainColor = texture(TEXTURE, uv);
+    
+    if (add_margins) {
+        vec2 texture_pixel_size = vec2(1.0) / (vec2(1.0) / TEXTURE_PIXEL_SIZE + vec2(width * 2.0));
+        
+        uv = (uv - texture_pixel_size * width) * TEXTURE_PIXEL_SIZE / texture_pixel_size;
+        
+        if (uv != clamp(uv, vec2(0.0), vec2(1.0))) {
+            COLOR.a = 0.0;
+        } else {
+            mainColor = texture(TEXTURE, uv);
+        }
+    }
+
+    mainColor.rgb = adjustSaturation(mainColor.rgb, saturation);
+
+    // Draw shadow or outline
+    if ((mainColor.a > 0.0) == inside && hasContraryNeighbour(uv, TEXTURE_PIXEL_SIZE, TEXTURE)) {
+        mainColor.rgb = inside ? mix(mainColor.rgb, color.rgb, color.a) : color.rgb;
+        mainColor.a += (1.0 - mainColor.a) * opacity; // Apply opacity to the shadow
+    }
+    
+    // Handle shadow position and transparency
+    vec2 shadow_uv = vec2(uv.x, uv.y + offsetY * singlePX.y); 
+    vec4 shadowColor = hideExtra(shadow_uv, TEXTURE, false);
+	shadowColor.a *= shadowOpacity;
+    
+    // Combine shadow and main color by layering
+    vec4 res = mix(shadowColor, mainColor, mainColor.a);
+    
+    // Draw the sprite over the shadow
+    COLOR = res;
+    
+    // Debug layer
+    vec4 debug_layer = vec4(1.0, 0.0, 0.0, 0.3);
+    COLOR = mix(debug ? debug_layer : COLOR, COLOR, COLOR.a);
+}
+"
+
+[sub_resource type="ShaderMaterial" id=4434]
+shader = SubResource( 4429 )
+shader_param/color = Color( 0, 0, 0, 1 )
+shader_param/opacity = 1.0
+shader_param/width = 5.0
+shader_param/pattern = 0
+shader_param/shadowOpacity = 0.142
+shader_param/inside = false
+shader_param/add_margins = true
+shader_param/borderScale = 1.0
+shader_param/offsetY = -30.0
+shader_param/modulate = Color( 0, 0, 0, 1 )
+shader_param/debug = false
+shader_param/saturation = 1.0
+
+[sub_resource type="ViewportTexture" id=4435]
+viewport_path = NodePath("OutlineShader/CenterContainer/Viewport")
+
+[node name="Main" type="Node2D"]
+__meta__ = {
+"_edit_horizontal_guides_": [  ]
+}
+
+[node name="BG" type="CanvasLayer" parent="."]
+layer = -3
+
+[node name="Control" type="Control" parent="BG"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="TextureRect" type="TextureRect" parent="BG/Control"]
+modulate = Color( 0, 0.858824, 1, 1 )
+show_behind_parent = true
+material = SubResource( 4430 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -685.0
+margin_top = -391.0
+margin_right = 339.0
+margin_bottom = 209.0
+rect_scale = Vector2( 1.3, 1.3 )
+texture = ExtResource( 7 )
+expand = true
+stretch_mode = 6
+script = ExtResource( 2 )
+
+[node name="Front_Objects" type="CanvasLayer" parent="."]
+layer = 2
+follow_viewport_enable = true
+
+[node name="Blink" parent="Front_Objects" instance=ExtResource( 12 )]
+position = Vector2( -845, 297 )
+
+[node name="Camera" type="Camera2D" parent="Front_Objects"]
+position = Vector2( -512, 300 )
+current = true
+zoom = Vector2( 1.09, 1.09 )
+smoothing_enabled = true
+smoothing_speed = 14.0
+script = ExtResource( 3 )
+
+[node name="Back_Objects" type="CanvasLayer" parent="."]
+layer = 0
+follow_viewport_enable = true
+
+[node name="EscapeOrb" parent="Back_Objects" instance=ExtResource( 11 )]
+position = Vector2( -841, 230 )
+
+[node name="Objects" type="Node2D" parent="Back_Objects"]
+position = Vector2( 0, -66 )
+
+[node name="Tramp" parent="Back_Objects" instance=ExtResource( 13 )]
+position = Vector2( -548, 503 )
+
+[node name="Cyquanox" parent="Back_Objects" instance=ExtResource( 16 )]
+position = Vector2( 2181, 486 )
+
+[node name="Cyquanox2" parent="Back_Objects" instance=ExtResource( 16 )]
+position = Vector2( 2264, 484 )
+
+[node name="Cyquanox3" parent="Back_Objects" instance=ExtResource( 16 )]
+position = Vector2( 2104, 484 )
+
+[node name="Cyquanox4" parent="Back_Objects" instance=ExtResource( 16 )]
+position = Vector2( 2016, 466 )
+
+[node name="Cyquanox5" parent="Back_Objects" instance=ExtResource( 16 )]
+position = Vector2( 1921, 485 )
+
+[node name="Cyquanox6" parent="Back_Objects" instance=ExtResource( 16 )]
+position = Vector2( 1811, 483 )
+
+[node name="Cyquanox7" parent="Back_Objects" instance=ExtResource( 16 )]
+position = Vector2( 1692, 478 )
+
+[node name="Cyquanox8" parent="Back_Objects" instance=ExtResource( 16 )]
+position = Vector2( 1573, 478 )
+
+[node name="Cyquanox9" parent="Back_Objects" instance=ExtResource( 16 )]
+position = Vector2( 2357, 488 )
+
+[node name="Cyquanox10" parent="Back_Objects" instance=ExtResource( 16 )]
+position = Vector2( 2451, 486 )
+
+[node name="Cyquanox11" parent="Back_Objects" instance=ExtResource( 16 )]
+position = Vector2( 2532, 486 )
+
+[node name="Cyquanox12" parent="Back_Objects" instance=ExtResource( 16 )]
+position = Vector2( 2608, 484 )
+
+[node name="UI" type="CanvasLayer" parent="."]
+layer = 4
+
+[node name="Stats" parent="UI" instance=ExtResource( 44 )]
+
+[node name="EscapeTimer" type="Control" parent="UI"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 9 )
+EscapeTime = 30
+
+[node name="EscapeProgressBar" type="TextureProgress" parent="UI/EscapeTimer"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -115.5
+margin_top = 100.0
+margin_right = 115.5
+margin_bottom = 175.0
+max_value = 50.0
+step = 0.0
+value = 50.0
+texture_under = ExtResource( 19 )
+texture_progress = ExtResource( 26 )
+texture_progress_offset = Vector2( 6.5, 0 )
+
+[node name="EscapeTime" type="Timer" parent="UI/EscapeTimer"]
+
+[node name="Results" type="Control" parent="UI"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 5 )
+
+[node name="Panel" type="Panel" parent="UI/Results"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Image" type="TextureRect" parent="UI/Results"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource( 20 )
+expand = true
+stretch_mode = 7
+
+[node name="TimeUntilMenu" type="Timer" parent="UI/Results"]
+wait_time = 6.5
+one_shot = true
+
+[node name="Tween" type="Tween" parent="UI/Results"]
+
+[node name="Timeout" type="AudioStreamPlayer" parent="UI/Results"]
+stream = ExtResource( 15 )
+
+[node name="Victory" type="AudioStreamPlayer" parent="UI/Results"]
+stream = ExtResource( 24 )
+volume_db = -4.566
+
+[node name="Escape!" type="Control" parent="UI"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 8 )
+
+[node name="Panel" type="Panel" parent="UI/Escape!"]
+self_modulate = Color( 0, 0, 0, 0 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Label" type="Label" parent="UI/Escape!/Panel"]
+self_modulate = Color( 1, 1, 1, 0 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = SubResource( 4431 )
+text = "Escape!"
+align = 1
+valign = 1
+
+[node name="Tween" type="Tween" parent="UI/Escape!"]
+
+[node name="Map" type="Node2D" parent="."]
+script = ExtResource( 4 )
+
+[node name="Main" type="StaticBody2D" parent="Map"]
+position = Vector2( 45, -64 )
+collision_layer = 57
+collision_mask = 57
+
+[node name="ShaderSprite" type="Node2D" parent="Map/Main"]
+script = ExtResource( 32 )
+color_encoding = 1
+_points = SubResource( 4534 )
+shape_material = SubResource( 4461 )
+tessellation_stages = 5
+tessellation_tolerence = 4.0
+flip_edges = false
+render_edges = true
+collision_size = 32.0
+collision_offset = 0.0
+collision_polygon_node_path = NodePath("../CollisionPolygon2D")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Map/Main"]
+visible = false
+modulate = Color( 1, 1, 1, 0.3 )
+polygon = PoolVector2Array( -1040.4, 404.806, -1011.89, 435.831, -779.143, 436.053, -747.169, 466.551, -747.286, 611.458, 348.089, 609.845, 471.035, 559.075, 1392.39, 559.284, 1520.78, 606.974, 2610.39, 604.661, 2612.17, 336.03, 2639.59, 285.48, 3079.65, 285.28, 3105.2, 321.844, 3105.12, 503.69, 3178.02, 503.955, 3237.02, 579.955, 3407.97, 581.052, 3407.86, 329.162, 3837.08, 329.113, 3837.33, 577.892, 4771.41, 538.935, 4770.67, -99.2771, 5329.59, -99.0866, 5328.38, 511.463, 5363.5, 555.917, 5422.46, 582.875, 6291.26, 582.982, 6328.65, 553.545, 6406.07, 554.487, 6439.79, 583.773, 6861.1, 585.316, 8119.21, 726.358, -1127.53, 769.47, -1206.29, 430.516 )
+
+[node name="OutlineShader" type="CanvasLayer" parent="."]
+layer = 0
+
+[node name="CenterContainer" type="Control" parent="OutlineShader"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 512.0
+margin_top = 305.0
+margin_right = 512.0
+margin_bottom = 305.0
+script = ExtResource( 10 )
+
+[node name="Texture" type="Sprite" parent="OutlineShader/CenterContainer"]
+material = SubResource( 4434 )
+texture = SubResource( 4435 )
+
+[node name="Viewport" type="Viewport" parent="OutlineShader/CenterContainer"]
+size = Vector2( 1280, 720 )
+transparent_bg = true
+usage = 1
+render_target_v_flip = true
+
+[node name="Camera" type="Camera2D" parent="OutlineShader/CenterContainer/Viewport"]
+current = true
+zoom = Vector2( 1.09, 1.09 )
+smoothing_enabled = true
+smoothing_speed = 14.0
+script = ExtResource( 3 )
+
+[node name="MusicPlayer" type="Node2D" parent="."]
+script = ExtResource( 6 )
+
+[node name="Escapeism" type="AudioStreamPlayer" parent="MusicPlayer"]
+stream = ExtResource( 23 )
+volume_db = -16.824
+
+[node name="Main" type="AudioStreamPlayer" parent="MusicPlayer"]
+stream = ExtResource( 17 )
+
+[connection signal="timeout" from="UI/Results/TimeUntilMenu" to="UI/Results" method="_on_TimeUntilMenu_timeout"]

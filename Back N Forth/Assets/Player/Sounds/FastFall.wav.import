@@ -1,0 +1,23 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/FastFall.wav-167e000e0441c8bd1e15daf0626c367d.sample"
+
+[deps]
+
+source_file="res://Assets/Player/Sounds/FastFall.wav"
+dest_files=[ "res://.import/FastFall.wav-167e000e0441c8bd1e15daf0626c367d.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

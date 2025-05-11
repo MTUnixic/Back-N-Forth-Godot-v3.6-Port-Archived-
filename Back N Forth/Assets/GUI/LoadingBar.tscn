@@ -1,0 +1,65 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://Assets/GUI/Assets/LoadingBar_BG.svg" type="Texture" id=1]
+[ext_resource path="res://Assets/GUI/Assets/LoadingBar_Progress.svg" type="Texture" id=2]
+[ext_resource path="res://Assets/GUI/Assets/loading_3.svg" type="Texture" id=3]
+[ext_resource path="res://Assets/GUI/Assets/loading_1.svg" type="Texture" id=4]
+[ext_resource path="res://Assets/GUI/Assets/loading_2.svg" type="Texture" id=5]
+[ext_resource path="res://Assets/RichTextLabel Effects/PhantomMuff_Full_Letters_1_1_5.ttf" type="DynamicFontData" id=6]
+[ext_resource path="res://Assets/RichTextLabel Effects/resources/Sparkle.tres" type="RichTextEffect" id=7]
+[ext_resource path="res://Assets/RichTextLabel Effects/resources/Nervous.tres" type="RichTextEffect" id=8]
+[ext_resource path="res://Assets/GUI/LoadingBar.gd" type="Script" id=9]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 4 ), ExtResource( 5 ), ExtResource( 3 ) ],
+"loop": true,
+"name": "Load",
+"speed": 7.0
+} ]
+
+[sub_resource type="DynamicFont" id=2]
+size = 76
+outline_size = 7
+font_data = ExtResource( 6 )
+
+[node name="LoadingBar" type="TextureProgress"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -500.0
+margin_top = -115.0
+margin_right = 796.0
+margin_bottom = 3.0
+rect_scale = Vector2( 0.65, 0.65 )
+step = 0.0
+value = 100.0
+texture_under = ExtResource( 1 )
+texture_progress = ExtResource( 2 )
+script = ExtResource( 9 )
+
+[node name="Panel" type="Panel" parent="."]
+show_behind_parent = true
+margin_left = -17.0
+margin_top = -740.0
+margin_right = 1557.0
+margin_bottom = 178.0
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+position = Vector2( 1423.08, 55.3846 )
+scale = Vector2( 1.3, 1.3 )
+frames = SubResource( 1 )
+animation = "Load"
+playing = true
+
+[node name="Text" type="RichTextLabel" parent="."]
+margin_left = 26.0
+margin_top = -89.0
+margin_right = 674.0
+margin_bottom = 3.0
+custom_fonts/normal_font = SubResource( 2 )
+bbcode_enabled = true
+bbcode_text = "[nervous][sparkle c1=black c2=black] loading... [][/sparkle][/nervous]"
+text = " loading... []"
+custom_effects = [ ExtResource( 7 ), ExtResource( 8 ) ]

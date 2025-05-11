@@ -1,0 +1,29 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Assets/Interactables/Assets/Platform Normal.svg" type="Texture" id=1]
+[ext_resource path="res://Assets/Interactables/Moving Platform.gd" type="Script" id=2]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 99.5, 14.5 )
+
+[node name="Moving Platform" type="Node2D"]
+script = ExtResource( 2 )
+
+[node name="PointA" type="Position2D" parent="."]
+
+[node name="PointB" type="Position2D" parent="."]
+
+[node name="Platform" type="Position2D" parent="."]
+
+[node name="Body" type="KinematicBody2D" parent="Platform"]
+collision_layer = 9
+collision_mask = 9
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platform/Body"]
+position = Vector2( 0.5, 0.5 )
+shape = SubResource( 1 )
+one_way_collision = true
+
+[node name="Sprite" type="Sprite" parent="Platform"]
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 1 )

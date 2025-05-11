@@ -1,0 +1,23 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/Title n Menus__MT Unixic-Forth Hop.wav-9810d6498fac2b0a1f58b8fa3b6a1d73.sample"
+
+[deps]
+
+source_file="res://Assets/GUI/Sounds/Title n Menus__MT Unixic-Forth Hop.wav"
+dest_files=[ "res://.import/Title n Menus__MT Unixic-Forth Hop.wav-9810d6498fac2b0a1f58b8fa3b6a1d73.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

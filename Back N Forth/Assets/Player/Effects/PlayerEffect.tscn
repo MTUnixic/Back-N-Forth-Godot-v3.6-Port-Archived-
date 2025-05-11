@@ -1,0 +1,264 @@
+[gd_scene load_steps=74 format=2]
+
+[ext_resource path="res://Assets/Player/Assets/run-11.svg" type="Texture" id=1]
+[ext_resource path="res://Assets/Player/Assets/run-16.svg" type="Texture" id=2]
+[ext_resource path="res://Assets/Player/Assets/run-02.svg" type="Texture" id=3]
+[ext_resource path="res://Assets/Player/Assets/run-05.svg" type="Texture" id=4]
+[ext_resource path="res://Assets/Player/Assets/run-13.svg" type="Texture" id=5]
+[ext_resource path="res://Assets/Player/Assets/run-03.svg" type="Texture" id=6]
+[ext_resource path="res://Assets/Player/Assets/run-10.svg" type="Texture" id=7]
+[ext_resource path="res://Assets/Player/Assets/fall.svg" type="Texture" id=8]
+[ext_resource path="res://Assets/Player/Assets/Jump01.svg" type="Texture" id=9]
+[ext_resource path="res://Assets/Player/Assets/run-08.svg" type="Texture" id=10]
+[ext_resource path="res://Assets/Player/Assets/run-06.svg" type="Texture" id=11]
+[ext_resource path="res://Assets/Player/Assets/run-09.svg" type="Texture" id=12]
+[ext_resource path="res://Assets/Player/Assets/run-01.svg" type="Texture" id=13]
+[ext_resource path="res://Assets/Player/Assets/Jump2.svg" type="Texture" id=14]
+[ext_resource path="res://Assets/Player/Assets/run-14.svg" type="Texture" id=15]
+[ext_resource path="res://Assets/Player/Assets/Jump3.svg" type="Texture" id=16]
+[ext_resource path="res://Assets/Player/Assets/run-04.svg" type="Texture" id=17]
+[ext_resource path="res://Assets/Player/Assets/fall2.svg" type="Texture" id=18]
+[ext_resource path="res://Assets/Player/Assets/run-15.svg" type="Texture" id=19]
+[ext_resource path="res://Assets/Player/Assets/run-07.svg" type="Texture" id=20]
+[ext_resource path="res://Assets/Player/Assets/run-12.svg" type="Texture" id=21]
+[ext_resource path="res://Assets/Player/Assets/stand1.svg" type="Texture" id=22]
+[ext_resource path="res://Assets/Player/Assets/crouch charge.svg" type="Texture" id=23]
+[ext_resource path="res://Assets/Player/Assets/crouch.svg" type="Texture" id=24]
+[ext_resource path="res://Assets/Player/Assets/crouch charge flash.svg" type="Texture" id=25]
+[ext_resource path="res://Assets/Player/Effects/PlayerGhostEffect.gd" type="Script" id=26]
+[ext_resource path="res://Assets/Player/Assets/slide.svg" type="Texture" id=27]
+[ext_resource path="res://Assets/Player/Assets/slide2.svg" type="Texture" id=28]
+[ext_resource path="res://Assets/Player/Assets/Sprinting2.svg" type="Texture" id=29]
+[ext_resource path="res://Assets/Player/Assets/Sprinting1.svg" type="Texture" id=30]
+[ext_resource path="res://Assets/Player/Assets/Sprinting4.svg" type="Texture" id=31]
+[ext_resource path="res://Assets/Player/Assets/Sprinting7.svg" type="Texture" id=32]
+[ext_resource path="res://Assets/Player/Assets/HangOn.svg" type="Texture" id=33]
+[ext_resource path="res://Assets/Player/Assets/Sprinting3.svg" type="Texture" id=34]
+[ext_resource path="res://Assets/Player/Assets/Slip.svg" type="Texture" id=35]
+[ext_resource path="res://Assets/Player/Assets/Sprinting5.svg" type="Texture" id=36]
+[ext_resource path="res://Assets/Player/Assets/Sprinting8.svg" type="Texture" id=37]
+[ext_resource path="res://Assets/Player/Assets/Sprinting6.svg" type="Texture" id=38]
+[ext_resource path="res://Assets/Player/Assets/hyperfall.svg" type="Texture" id=39]
+[ext_resource path="res://Assets/Player/Assets/Pre-Run1.svg" type="Texture" id=40]
+[ext_resource path="res://Assets/Player/Assets/Pre-Run2.svg" type="Texture" id=41]
+[ext_resource path="res://Assets/Player/Assets/Pre-Run9.svg" type="Texture" id=42]
+[ext_resource path="res://Assets/Player/Assets/Pre-Run3.svg" type="Texture" id=43]
+[ext_resource path="res://Assets/Player/Assets/Pre-Run8.svg" type="Texture" id=44]
+[ext_resource path="res://Assets/Player/Assets/Pre-Run10.svg" type="Texture" id=45]
+[ext_resource path="res://Assets/Player/Assets/Pre-Run7.svg" type="Texture" id=46]
+[ext_resource path="res://Assets/Player/Assets/Pre-Run4.svg" type="Texture" id=47]
+[ext_resource path="res://Assets/Player/Assets/Pre-Run5.svg" type="Texture" id=48]
+[ext_resource path="res://Assets/Player/Assets/Pre-Run6.svg" type="Texture" id=49]
+[ext_resource path="res://Assets/Player/Assets/Verti-Prepare2.svg" type="Texture" id=50]
+[ext_resource path="res://Assets/Player/Assets/Verti-Prepare1.svg" type="Texture" id=51]
+[ext_resource path="res://Assets/Player/Assets/Verti-Prepare3.svg" type="Texture" id=52]
+[ext_resource path="res://Assets/Player/Assets/Blink.png" type="Texture" id=53]
+[ext_resource path="res://Assets/Player/Assets/BlinkDive.png" type="Texture" id=54]
+
+[sub_resource type="Shader" id=6]
+code = "shader_type canvas_item;
+//if you need to get help with shaders just use chatgpt tbh it saves time learning how to use shaders
+uniform vec4 tint_color: hint_color = vec4(1.0, 1.0, 1.0, 1.0);
+uniform float difference: hint_range(0.0, 1.0) = 0.0;
+
+void fragment() {
+    vec4 tex = texture(TEXTURE, UV);
+    
+    vec3 tinted_color = mix(tex.rgb, tint_color.rgb, difference);
+    
+    COLOR.rgb = tinted_color;
+    COLOR.a = tex.a;
+}
+"
+
+[sub_resource type="ShaderMaterial" id=4]
+shader = SubResource( 6 )
+shader_param/tint_color = Color( 0, 0.27451, 1, 1 )
+shader_param/difference = 1.0
+
+[sub_resource type="AtlasTexture" id=21]
+flags = 4
+atlas = ExtResource( 54 )
+region = Rect2( 1, 0, 159, 156 )
+
+[sub_resource type="AtlasTexture" id=22]
+flags = 4
+atlas = ExtResource( 54 )
+region = Rect2( 160, 0, 159, 156 )
+
+[sub_resource type="AtlasTexture" id=23]
+flags = 4
+atlas = ExtResource( 54 )
+region = Rect2( 319, 0, 159, 156 )
+
+[sub_resource type="AtlasTexture" id=24]
+flags = 4
+atlas = ExtResource( 54 )
+region = Rect2( 1, 156, 159, 156 )
+
+[sub_resource type="AtlasTexture" id=25]
+flags = 4
+atlas = ExtResource( 54 )
+region = Rect2( 160, 156, 159, 156 )
+
+[sub_resource type="AtlasTexture" id=26]
+flags = 4
+atlas = ExtResource( 54 )
+region = Rect2( 319, 156, 159, 156 )
+
+[sub_resource type="AtlasTexture" id=27]
+flags = 4
+atlas = ExtResource( 54 )
+region = Rect2( 1, 312, 159, 156 )
+
+[sub_resource type="AtlasTexture" id=28]
+flags = 4
+atlas = ExtResource( 54 )
+region = Rect2( 160, 312, 159, 156 )
+
+[sub_resource type="AtlasTexture" id=13]
+flags = 4
+atlas = ExtResource( 53 )
+region = Rect2( 316, 480, 158, 160 )
+
+[sub_resource type="AtlasTexture" id=14]
+flags = 4
+atlas = ExtResource( 53 )
+region = Rect2( 474, 480, 158, 160 )
+
+[sub_resource type="AtlasTexture" id=15]
+flags = 4
+atlas = ExtResource( 53 )
+region = Rect2( 632, 480, 158, 160 )
+
+[sub_resource type="AtlasTexture" id=16]
+flags = 4
+atlas = ExtResource( 53 )
+region = Rect2( 790, 480, 158, 160 )
+
+[sub_resource type="AtlasTexture" id=17]
+flags = 4
+atlas = ExtResource( 53 )
+region = Rect2( 948, 480, 158, 160 )
+
+[sub_resource type="AtlasTexture" id=18]
+flags = 4
+atlas = ExtResource( 53 )
+region = Rect2( 1106, 480, 158, 160 )
+
+[sub_resource type="AtlasTexture" id=19]
+flags = 4
+atlas = ExtResource( 53 )
+region = Rect2( 1264, 480, 158, 160 )
+
+[sub_resource type="AtlasTexture" id=20]
+flags = 4
+atlas = ExtResource( 53 )
+region = Rect2( 1422, 480, 158, 160 )
+
+[sub_resource type="SpriteFrames" id=5]
+animations = [ {
+"frames": [ ExtResource( 24 ) ],
+"loop": true,
+"name": "Crouch",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 25 ), ExtResource( 23 ), ExtResource( 23 ) ],
+"loop": true,
+"name": "Crouch Charge",
+"speed": 9.0
+}, {
+"frames": [ ExtResource( 9 ) ],
+"loop": false,
+"name": "Crouch Jump",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 21 ), SubResource( 22 ), SubResource( 23 ), SubResource( 24 ), SubResource( 25 ), SubResource( 26 ), SubResource( 27 ), SubResource( 28 ) ],
+"loop": true,
+"name": "Dive",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 14 ), ExtResource( 16 ) ],
+"loop": false,
+"name": "Enter Fall",
+"speed": 10.0
+}, {
+"frames": [ ExtResource( 18 ), ExtResource( 8 ) ],
+"loop": true,
+"name": "Fall",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 39 ) ],
+"loop": true,
+"name": "Hyperfall",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 22 ) ],
+"loop": true,
+"name": "Idle",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 9 ), ExtResource( 14 ), ExtResource( 16 ) ],
+"loop": false,
+"name": "Jump",
+"speed": 13.0
+}, {
+"frames": [ ExtResource( 40 ), ExtResource( 41 ), ExtResource( 43 ), ExtResource( 47 ), ExtResource( 48 ), ExtResource( 49 ), ExtResource( 46 ), ExtResource( 44 ), ExtResource( 42 ), ExtResource( 45 ) ],
+"loop": true,
+"name": "Pre Run",
+"speed": 18.0
+}, {
+"frames": [ ExtResource( 51 ), ExtResource( 50 ), ExtResource( 52 ) ],
+"loop": false,
+"name": "Pre Verti",
+"speed": 7.0
+}, {
+"frames": [ ExtResource( 30 ), ExtResource( 29 ), ExtResource( 34 ), ExtResource( 31 ), ExtResource( 36 ), ExtResource( 38 ), ExtResource( 32 ), ExtResource( 37 ) ],
+"loop": true,
+"name": "Running",
+"speed": 30.0
+}, {
+"frames": [ ExtResource( 35 ) ],
+"loop": true,
+"name": "Skid",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 28 ), ExtResource( 27 ) ],
+"loop": true,
+"name": "Slide",
+"speed": 7.0
+}, {
+"frames": [ ExtResource( 13 ), ExtResource( 3 ), ExtResource( 6 ), ExtResource( 17 ), ExtResource( 4 ), ExtResource( 11 ), ExtResource( 20 ), ExtResource( 10 ), ExtResource( 12 ), ExtResource( 7 ), ExtResource( 1 ), ExtResource( 21 ), ExtResource( 5 ), ExtResource( 15 ), ExtResource( 19 ), ExtResource( 2 ) ],
+"loop": true,
+"name": "Walk",
+"speed": 30.0
+}, {
+"frames": [ SubResource( 13 ), SubResource( 14 ), SubResource( 15 ), SubResource( 16 ), SubResource( 17 ), SubResource( 18 ), SubResource( 19 ), SubResource( 20 ) ],
+"loop": true,
+"name": "WallRun",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 33 ) ],
+"loop": true,
+"name": "WallSlide",
+"speed": 60.0
+} ]
+
+[node name="Frames" type="AnimatedSprite"]
+self_modulate = Color( 0, 0.905882, 1, 0.32549 )
+show_behind_parent = true
+material = SubResource( 4 )
+position = Vector2( -333, -137 )
+frames = SubResource( 5 )
+animation = "WallRun"
+frame = 2
+script = ExtResource( 26 )
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+autostart = true
+
+[node name="Tween" type="Tween" parent="."]
+
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

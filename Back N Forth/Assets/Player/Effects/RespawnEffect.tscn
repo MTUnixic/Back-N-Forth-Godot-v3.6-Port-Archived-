@@ -1,0 +1,28 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://Assets/Player/Effects/RespawnEffect.gd" type="Script" id=1]
+[ext_resource path="res://Assets/Player/Effects/Assets/Respawn_effect_1.svg" type="Texture" id=2]
+[ext_resource path="res://Assets/Player/Effects/Assets/Respawn_effect_6.svg" type="Texture" id=3]
+[ext_resource path="res://Assets/Player/Effects/Assets/Respawn_effect_5.svg" type="Texture" id=4]
+[ext_resource path="res://Assets/Player/Effects/Assets/Respawn_effect_4.svg" type="Texture" id=5]
+[ext_resource path="res://Assets/Player/Effects/Assets/Respawn_effect_2.svg" type="Texture" id=6]
+[ext_resource path="res://Assets/Player/Effects/Assets/Respawn_effect_3.svg" type="Texture" id=7]
+[ext_resource path="res://Assets/Player/Effects/Assets/Respawn_effect_7.svg" type="Texture" id=8]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 2 ), ExtResource( 6 ), ExtResource( 7 ), ExtResource( 5 ), ExtResource( 4 ), ExtResource( 3 ), ExtResource( 8 ) ],
+"loop": true,
+"name": "Effect",
+"speed": 17.0
+} ]
+
+[node name="RespawnEffect" type="AnimatedSprite"]
+scale = Vector2( 0.3, 0.3 )
+z_index = -2
+frames = SubResource( 1 )
+animation = "Effect"
+playing = true
+script = ExtResource( 1 )
+
+[connection signal="animation_finished" from="." to="." method="_on_RespawnEffect_animation_finished"]

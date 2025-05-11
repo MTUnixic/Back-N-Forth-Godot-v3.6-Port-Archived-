@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/In-Game OST__MT Unixic-Escapism.mp3-057ac083b41681908cb4562304f440ae.mp3str"
+
+[deps]
+
+source_file="res://Assets/GUI/Sounds/In-Game OST__MT Unixic-Escapism.mp3"
+dest_files=[ "res://.import/In-Game OST__MT Unixic-Escapism.mp3-057ac083b41681908cb4562304f440ae.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

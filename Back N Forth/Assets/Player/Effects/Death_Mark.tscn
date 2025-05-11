@@ -1,0 +1,33 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Assets/Player/Effects/Assets/DeathMarker_2.svg" type="Texture" id=1]
+[ext_resource path="res://Assets/Player/Effects/Assets/DeathMarker_3.svg" type="Texture" id=2]
+[ext_resource path="res://Assets/Player/Effects/Assets/DeathMarker_1.svg" type="Texture" id=3]
+[ext_resource path="res://Assets/Player/Effects/Death_Mark.gd" type="Script" id=4]
+
+[sub_resource type="CircleShape2D" id=3]
+radius = 32.249
+
+[sub_resource type="SpriteFrames" id=2]
+animations = [ {
+"frames": [ ExtResource( 3 ), ExtResource( 1 ), ExtResource( 2 ) ],
+"loop": true,
+"name": "DeathMark",
+"speed": 5.0
+} ]
+
+[node name="Death_Mark" type="Area2D"]
+script = ExtResource( 4 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 3 )
+
+[node name="Anim" type="AnimatedSprite" parent="."]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 2 )
+animation = "DeathMark"
+playing = true
+
+[node name="Tween" type="Tween" parent="."]
+
+[connection signal="body_entered" from="." to="." method="_on_Death_Mark_body_entered"]

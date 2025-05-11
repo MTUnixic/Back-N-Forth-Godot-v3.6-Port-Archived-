@@ -1,0 +1,77 @@
+[gd_scene load_steps=14 format=2]
+
+[ext_resource path="res://Assets/Enemys/Assets/SnoxK.svg" type="Texture" id=1]
+[ext_resource path="res://Assets/Enemys/Assets/SnoxK2.svg" type="Texture" id=2]
+[ext_resource path="res://Assets/Enemys/Assets/SnoxK3.svg" type="Texture" id=3]
+[ext_resource path="res://Assets/Enemys/Assets/SnoxN2.svg" type="Texture" id=4]
+[ext_resource path="res://Assets/Enemys/Assets/SnoxN3.svg" type="Texture" id=5]
+[ext_resource path="res://Assets/Enemys/Assets/SnoxN4.svg" type="Texture" id=6]
+[ext_resource path="res://Assets/Enemys/Assets/SnoxN.svg" type="Texture" id=7]
+[ext_resource path="res://Assets/Enemys/Sounds/Stomp.wav" type="AudioStream" id=8]
+[ext_resource path="res://Assets/Enemys/Snox.gd" type="Script" id=9]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 43, 58 )
+
+[sub_resource type="SpriteFrames" id=2]
+animations = [ {
+"frames": [ ExtResource( 1 ), ExtResource( 2 ), ExtResource( 3 ) ],
+"loop": false,
+"name": "Death",
+"speed": 10.0
+}, {
+"frames": [ ExtResource( 4 ), ExtResource( 5 ), ExtResource( 7 ), ExtResource( 6 ) ],
+"loop": true,
+"name": "Idle",
+"speed": 5.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 55.5556, 13.8889 )
+
+[sub_resource type="CircleShape2D" id=4]
+radius = 62.2222
+
+[node name="Snox" type="KinematicBody2D"]
+scale = Vector2( 0.5, 0.5 )
+script = ExtResource( 9 )
+
+[node name="MovementCollision" type="CollisionShape2D" parent="."]
+position = Vector2( 1, 12 )
+shape = SubResource( 1 )
+
+[node name="EnemySprite" type="AnimatedSprite" parent="."]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 2 )
+animation = "Death"
+playing = true
+
+[node name="HitWall" type="RayCast2D" parent="EnemySprite"]
+position = Vector2( 115.556, 106.667 )
+cast_to = Vector2( 30, 0 )
+collision_mask = 40
+
+[node name="HitFloor" type="RayCast2D" parent="EnemySprite"]
+position = Vector2( 84.4445, 137.778 )
+cast_to = Vector2( 0, 100 )
+collision_mask = 8
+
+[node name="StompCollision" type="Area2D" parent="."]
+position = Vector2( 0, -57.7778 )
+
+[node name="StompCollision" type="CollisionShape2D" parent="StompCollision"]
+position = Vector2( -1.32455e-06, -1.66667 )
+shape = SubResource( 3 )
+
+[node name="Stomp" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 8 )
+
+[node name="HurtBox" type="Area2D" parent="."]
+
+[node name="StompCollision" type="CollisionShape2D" parent="HurtBox"]
+position = Vector2( 0, 17.7778 )
+shape = SubResource( 4 )
+
+[connection signal="animation_finished" from="EnemySprite" to="." method="_on_EnemySprite_animation_finished"]
+[connection signal="body_entered" from="StompCollision" to="." method="_on_StompCollision_body_entered"]
+[connection signal="body_entered" from="HurtBox" to="." method="_on_HurtBox_body_entered"]

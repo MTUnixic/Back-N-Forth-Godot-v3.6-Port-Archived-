@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/BnF - TimingLevel.mp3-dd5498d6d441c4f593c917b8721f893c.mp3str"
+
+[deps]
+
+source_file="res://Assets/GUI/Sounds/BnF - TimingLevel.mp3"
+dest_files=[ "res://.import/BnF - TimingLevel.mp3-dd5498d6d441c4f593c917b8721f893c.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

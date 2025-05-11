@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/BnF-AltLULLABY.mp3-be58c5266da6d7fd5ba964c7733d64c2.mp3str"
+
+[deps]
+
+source_file="res://Assets/GUI/Sounds/BnF-AltLULLABY.mp3"
+dest_files=[ "res://.import/BnF-AltLULLABY.mp3-be58c5266da6d7fd5ba964c7733d64c2.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

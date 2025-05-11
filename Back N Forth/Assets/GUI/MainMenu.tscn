@@ -1,0 +1,126 @@
+[gd_scene load_steps=14 format=2]
+
+[ext_resource path="res://Assets/RichTextLabel Effects/resources/Jump.tres" type="RichTextEffect" id=1]
+[ext_resource path="res://Assets/RichTextLabel Effects/resources/Sparkle.tres" type="RichTextEffect" id=2]
+[ext_resource path="res://Assets/RichTextLabel Effects/resources/Nervous.tres" type="RichTextEffect" id=3]
+[ext_resource path="res://Assets/RichTextLabel Effects/Handlee-Regular.ttf" type="DynamicFontData" id=4]
+[ext_resource path="res://Assets/GUI/Assets/MainMenuBG.svg" type="Texture" id=5]
+[ext_resource path="res://Assets/GUI/MainMenu.gd" type="Script" id=6]
+[ext_resource path="res://Assets/GUI/Assets/Play Button.svg" type="Texture" id=7]
+[ext_resource path="res://Assets/GUI/Assets/Play Button Hover.svg" type="Texture" id=8]
+[ext_resource path="res://Assets/GUI/Sounds/Title n Menus__MT Unixic-Forth Hop.wav" type="AudioStream" id=9]
+
+[sub_resource type="DynamicFont" id=1]
+resource_local_to_scene = true
+size = 80
+outline_size = 8
+outline_color = Color( 0, 0, 0, 1 )
+use_filter = true
+font_data = ExtResource( 4 )
+
+[sub_resource type="DynamicFont" id=2]
+font_data = ExtResource( 4 )
+
+[sub_resource type="DynamicFont" id=3]
+font_data = ExtResource( 4 )
+
+[sub_resource type="DynamicFont" id=4]
+size = 80
+outline_size = 8
+outline_color = Color( 0.0196078, 1, 0, 1 )
+use_filter = true
+font_data = ExtResource( 4 )
+
+[node name="MainMenu" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 6 )
+
+[node name="BG" type="TextureRect" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -540.5
+margin_top = -322.0
+margin_right = 540.5
+margin_bottom = 322.0
+texture = ExtResource( 5 )
+expand = true
+
+[node name="BNF" type="RichTextLabel" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -236.0
+margin_top = 37.0
+margin_right = 249.0
+margin_bottom = 153.0
+custom_fonts/normal_font = SubResource( 1 )
+bbcode_enabled = true
+bbcode_text = "Back N Forth"
+text = "Back N Forth"
+
+[node name="Version" type="RichTextLabel" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -110.0
+margin_top = -112.0
+margin_right = 197.0
+margin_bottom = -1.0
+rect_scale = Vector2( 0.5, 0.5 )
+custom_fonts/mono_font = SubResource( 2 )
+custom_fonts/normal_font = SubResource( 1 )
+bbcode_enabled = true
+bbcode_text = "[center][jump angle=45] [sparkle freq=5 c1=white c2=dark_gray]V  1 . 0[/sparkle][/jump][/center]"
+text = " V  1 . 0"
+custom_effects = [ ExtResource( 2 ), ExtResource( 3 ), ExtResource( 1 ) ]
+
+[node name="Button" type="TextureButton" parent="."]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -645.0
+margin_top = 449.0
+margin_right = -168.0
+margin_bottom = 741.0
+rect_scale = Vector2( 0.5, 0.5 )
+texture_normal = ExtResource( 7 )
+texture_hover = ExtResource( 8 )
+
+[node name="noeffort" type="RichTextLabel" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -522.0
+margin_top = 302.0
+margin_right = 149.0
+margin_bottom = 412.0
+rect_rotation = -15.4615
+rect_scale = Vector2( 0.539096, 0.542083 )
+custom_fonts/mono_font = SubResource( 2 )
+custom_fonts/normal_font = SubResource( 1 )
+bbcode_enabled = true
+bbcode_text = "[center] [nervous]GET OUT-"
+text = " GET OUT-"
+custom_effects = [ ExtResource( 2 ), ExtResource( 3 ), ExtResource( 1 ) ]
+
+[node name="PlayText" type="RichTextLabel" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 445.0
+margin_top = 433.0
+margin_right = -375.0
+margin_bottom = -47.0
+rect_scale = Vector2( 0.5, 0.5 )
+custom_fonts/mono_font = SubResource( 3 )
+custom_fonts/normal_font = SubResource( 4 )
+bbcode_enabled = true
+bbcode_text = "[center]play"
+text = "play"
+custom_effects = [ ExtResource( 2 ), ExtResource( 3 ), ExtResource( 1 ) ]
+
+[node name="Audio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 9 )
+autoplay = true
+
+[connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]

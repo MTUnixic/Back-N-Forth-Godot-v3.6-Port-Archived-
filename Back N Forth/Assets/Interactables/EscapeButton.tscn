@@ -1,0 +1,48 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://EscapeButton.gd" type="Script" id=1]
+[ext_resource path="res://Assets/Interactables/Assets/EscapeBT_Pressed.svg" type="Texture" id=2]
+[ext_resource path="res://Assets/Interactables/Assets/EscapeBT_Idle.svg" type="Texture" id=3]
+[ext_resource path="res://Assets/Interactables/Sounds/EscapeBTUnpressed.wav" type="AudioStream" id=4]
+[ext_resource path="res://Assets/Interactables/Sounds/EscapeBTPressed.wav" type="AudioStream" id=5]
+[ext_resource path="res://Assets/Interactables/Sounds/Checkpoint.wav" type="AudioStream" id=6]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 32.1403
+
+[sub_resource type="SpriteFrames" id=2]
+animations = [ {
+"frames": [ ExtResource( 3 ) ],
+"loop": true,
+"name": "NotPressed",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 2 ) ],
+"loop": true,
+"name": "Pressed",
+"speed": 5.0
+} ]
+
+[node name="EscapeButton" type="Area2D"]
+script = ExtResource( 1 )
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+position = Vector2( 0, 1 )
+shape = SubResource( 1 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 2 )
+animation = "NotPressed"
+
+[node name="Pressed" type="AudioStreamPlayer" parent="AnimatedSprite"]
+stream = ExtResource( 4 )
+
+[node name="Unpressed" type="AudioStreamPlayer2D" parent="AnimatedSprite"]
+stream = ExtResource( 5 )
+
+[node name="TriggerSound" type="AudioStreamPlayer" parent="AnimatedSprite"]
+stream = ExtResource( 6 )
+
+[connection signal="body_entered" from="." to="." method="_on_EscapeButton_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_EscapeButton_body_exited"]

@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/BnF-Courser.ogg-4f63d44cc753cf5204dd845db8155f2d.oggstr"
+
+[deps]
+
+source_file="res://Assets/GUI/Sounds/BnF-Courser.ogg"
+dest_files=[ "res://.import/BnF-Courser.ogg-4f63d44cc753cf5204dd845db8155f2d.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

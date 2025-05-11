@@ -1,0 +1,25 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Assets/Player/Effects/Assets/Wind Ring.svg" type="Texture" id=1]
+[ext_resource path="res://Assets/Player/Effects/Assets/Wind Ring4.svg" type="Texture" id=2]
+[ext_resource path="res://Assets/Player/Effects/Assets/Wind Ring3.svg" type="Texture" id=3]
+[ext_resource path="res://Assets/Player/Effects/Assets/Wind Ring2.svg" type="Texture" id=4]
+[ext_resource path="res://Assets/Player/Effects/CrouchJumpRing.gd" type="Script" id=5]
+
+[sub_resource type="SpriteFrames" id=6]
+animations = [ {
+"frames": [ ExtResource( 1 ), ExtResource( 4 ), ExtResource( 3 ), ExtResource( 2 ) ],
+"loop": false,
+"name": "default",
+"speed": 10.0
+} ]
+
+[node name="CrouchJumpRing" type="AnimatedSprite"]
+self_modulate = Color( 1, 1, 1, 0.341176 )
+position = Vector2( -1, 27 )
+scale = Vector2( 2, 2 )
+frames = SubResource( 6 )
+playing = true
+script = ExtResource( 5 )
+
+[connection signal="animation_finished" from="." to="." method="_on_CrouchJumpRing_animation_finished"]
